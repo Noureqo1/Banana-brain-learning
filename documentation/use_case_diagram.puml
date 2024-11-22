@@ -1,22 +1,37 @@
 @startuml
-'https://plantuml.com/use-case-diagram
+actor "User" as User
+actor "System" as System
 
-:Main Admin: as Admin
-(Use the application) as (Use)
+rectangle "Banana brain learning" {
+    usecase "Signup"
+    usecase "Login"
+    usecase "View courses"
+    usecase "enroll in a course"
+    usecase "Select topics for a course"
+    usecase "Answer questions for a topic"
+    usecase "Take quizzes for a course"
+    usecase "View leaderboards"
+    usecase "Collect reward badge"
+}
 
-User -> (Start)
-User --> (Use)
+User -- "Signup"
+User -- "Login"
+User -- "View courses"
+User -- "enroll in a course"
+User -- "Select topics for a course"
+User -- "Answer questions for a topic"
+User -- "View leaderboards"
+User -- "Take quizzes for a course"
+User -- "Collect reward badge"
 
-Admin ---> (Use)
-
-note right of Admin : This is an example.
-
-note right of (Use)
-A note can also
-be on several lines
-end note
-
-note "This note is connected\nto several objects." as N2
-(Start) .. N2
-N2 .. (Use)
+"Signup" -- System
+"Login" -- System
+"View courses" -- System
+"enroll in a course" -- System
+System -- "Select topics for a course"
+"Answer questions for a topic" -- System
+"Take quizzes for a course" -- System
+"View leaderboards" -- System
+"Collect reward badge" -- System
 @enduml
+
