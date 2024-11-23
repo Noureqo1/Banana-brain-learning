@@ -28,7 +28,7 @@ class Topic
 class Question
 {
     +questionId
-    +question
+    +text
     +options
     +correctAnswer
 }
@@ -85,7 +85,7 @@ User "1" -- "0..*" Quiz : takes
 Quiz "1" -- "10..20*" Question : contains
 User "1" -- "0.." Badge : earns
 Authorization "1" -- "1" User : manages
-QuizGenerator "1" -- "0..*" Quiz : generates
+QuizGenerator "1" -- "*" Quiz : generates
 Topic "1" -- "0..*" TopicQuestions : contains
 Badge "1" -- "1" Course : associated with
 User "1" -- "0..*" TopicQuestions : solves
