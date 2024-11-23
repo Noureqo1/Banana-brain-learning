@@ -1,11 +1,21 @@
 @startuml
-'https://plantuml.com/sequence-diagram
-
-autonumber
-
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+actor User
+participant System
+participant Database
+User -> System: login(email, password)
+System --> Database: ValidateUser(userid, email, password)
+Database --> System: authenticate_user(username, password)
+System --> User: login_successful
+User -> System: view_courses
+User -> System: press on enroll in course button
+    System --> User: confirmation_message
+    User -> System: presses on confirm enrollment
+    System -> Database: add_student(userid)
+alt Course has prerequisites not completed
+    System --> User: message for prerequisite course to be completed first
+else No prerequisites or prerequisites completed
+System --> User: successful_enrollment(massage)
+end
 @enduml
+
+
