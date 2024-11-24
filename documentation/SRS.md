@@ -157,6 +157,8 @@ Banana Brain Academy enhances learning for kids by gamifying the process with sc
 ![ alt text](diagrams/sequence_diagram_2.png)
 ### 3.4 Domain Model
 ![ alt text](diagrams/domain_model.png)
-
-
+### 4.1 Schema
+![ alt text](diagrams/Schema.png)
+### 4.2 ERD
+![ alt text](diagrams/ERD.png)
  
