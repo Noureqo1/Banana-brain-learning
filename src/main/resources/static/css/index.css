@@ -141,24 +141,6 @@ nav {
   line-height: 1.75rem;
 }
 
-.header__container form {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-  gap: 1rem 0;
-  background-color: #f6f4f7;
-  border-radius: 10px;
-}
-
-.header__container .input__row {
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex: 1;
-}
-
 .header__container .input__group {
   display: flex;
   align-items: center;
@@ -167,14 +149,6 @@ nav {
 
 .header__container .input__group span {
   color: var(--text-dark);
-}
-
-.header__container input {
-  width: 100%;
-  outline: none;
-  border: none;
-  font-size: 1rem;
-  background-color: transparent;
 }
 
 .header__container button {
