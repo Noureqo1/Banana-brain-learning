@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+          crossorigin="anonymous"
+  />
+  <link
+          href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+          rel="stylesheet"
+  />
+
+  <script src="https://kit.fontawesome.com/0faddc1af8.js" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="css/index.css" />
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container-fluid">
+    <!-- Logo Section -->
+    <div class="nav__logo">
+      <div><img src="assets/logo.png" alt="Logo" /></div>
+      BananaBrain
+    </div>
+
+    <!-- Toggle for responsive design -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navigation Links -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/index">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courseList">View Courses</a>
+        </li>
+        <li class="nav-item" >
+          <a class="nav-link active" href="/myCourses">My Courses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courseRegister">Add Course</a>
+        </li>
+      </ul>
+      <!-- Social Media Links -->
+      <ul class="nav__socials">
+        <li>
+          <a href="https://github.com/darkhyper24/Banana-brain-learning"><i class="ri-github-fill"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
