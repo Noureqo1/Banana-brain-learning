@@ -21,4 +21,18 @@ public class ContentController {
     public String home(){
         return "index";
     }
+    @GetMapping("/courseList")
+    public String courses(){
+        return "courseList";
+    }
+
+    @GetMapping("/courseRegister")
+    public String Register(){
+        return "courseRegister";
+    }
+
+    @GetMapping("/myCourses")
+    public String MyCourses(){
+        return "myCourses";
+    }
 }
