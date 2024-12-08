@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
@@ -16,9 +14,6 @@
 
   <form action="/login" method="post">
     <h1>Login</h1>
-    <div class="dialog-row">
-      <label th:if="${param.error}" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}" class="text-center redText"></label>
-    </div>
     <div class="inputbox">
       <ion-icon name="email-outline"></ion-icon>
       <input name="username" id="username"type="name" required>
