@@ -70,16 +70,15 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="b :${book}">
-      <td th:text="${b.id}"></td>
-      <td th:text="${b.name}"></td>
-      <td th:text="${b.author}"></td>
-      <td th:text="${b.price}"></td>
-      <td><a class="btn btn-secondary btn-sm" th:href="@{/mylist/{id}(id=${b.id})}">Add To Mycourses</a>
-        <a style="color:blue" th:href="@{/editBook/{id}(id=${b.id})}"><i class="fa-solid fa-pen-to-square ms-4"></i></a>
-        <a style="color:red" th:href="@{/deleteBook/{id}(id=${b.id})}"><i class="fa-solid fa-trash ms-4"></i></a>
+    <tr th:each="c :${course}">
+      <td th:text="${c.id}"></td>
+      <td th:text="${c.name}"></td>
+      <td th:text="${c.Teacher}"></td>
+      <td th:text="${c.price}"></td>
+      <td><a class="btn btn-secondary btn-sm" th:href="@{/mylist/{id}(id=${c.id})}">Add To Mycourses</a>
+        <a style="color:blue" th:href="@{/editCourse/{id}(id=${c.id})}"><i class="fa-solid fa-pen-to-square ms-4"></i></a>
+        <a style="color:red" th:href="@{/deleteCourse/{id}(id=${c.id})}"><i class="fa-solid fa-trash ms-4"></i></a>
       </td>
-
     </tr>
 
     </tbody>
