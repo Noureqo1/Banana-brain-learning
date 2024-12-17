@@ -1,7 +1,9 @@
-package BananaBrain.model;
+package BananaBrain.service;
 
 import java.util.Optional;
 
+import BananaBrain.model.MyAppUser;
+import BananaBrain.repository.MyAppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,7 +34,4 @@ public class MyAppUserService implements UserDetailsService{
             throw new UsernameNotFoundException(username);
         }
     }
-
-
-
 }

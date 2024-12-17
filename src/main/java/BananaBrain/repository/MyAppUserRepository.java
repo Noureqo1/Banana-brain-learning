@@ -1,7 +1,8 @@
-package BananaBrain.model;
+package BananaBrain.repository;
 
 import java.util.Optional;
 
+import BananaBrain.model.MyAppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
