@@ -1,6 +1,10 @@
 package BananaBrain.security;
 
-import BananaBrain.model.MyAppUserService;
+import BananaBrain.model.MyAppUser;
+import BananaBrain.repository.MyAppUserRepository;
+import BananaBrain.service.MyAppUserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,10 +14,15 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import java.io.IOException;
 
 @EnableWebSecurity
 @AllArgsConstructor
@@ -21,15 +30,18 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     @Autowired
-    private final MyAppUserService appUserService;
+    private MyAppUserService appUserService;
+
+    @Autowired
+    private MyAppUserRepository myAppUserRepository;
 
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         return appUserService;
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(appUserService);
         provider.setPasswordEncoder(passwordEncoder());
@@ -37,7 +49,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -45,19 +57,27 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-                .formLogin(httpForm ->{
+                .formLogin(httpForm -> {
                     httpForm.loginPage("/login").permitAll();
                     httpForm.defaultSuccessUrl("/index");
-
+//                    httpForm.successHandler(new AuthenticationSuccessHandler() {
+//                        @Override
+//                        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+//                            MyAppUser user = (MyAppUser) appUserService.loadUserByUsername(authentication.getName());
+//                            if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("student"))) {
+//                                response.sendRedirect("/student/home");
+//                            } else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("teacher"))) {
+//                                response.sendRedirect("/teacher/home");
+//                            } else {
+//                                response.sendRedirect("/index");
+//                            }
+//                        }
+//                    });
                 })
-
-
-                .authorizeHttpRequests(registry ->{
-                    registry.requestMatchers("/req/signup","/css/**","/js/**", "/assets/**").permitAll();
+                .authorizeHttpRequests(registry -> {
+                    registry.requestMatchers("/req/signup", "/role", "/css/**", "/js/**", "/assets/**").permitAll();
                     registry.anyRequest().authenticated();
                 })
                 .build();
     }
 }
-
-

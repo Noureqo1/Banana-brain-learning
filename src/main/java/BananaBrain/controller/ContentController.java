@@ -1,10 +1,11 @@
 package BananaBrain.controller;
 
 
-
 import BananaBrain.model.Course;
 import BananaBrain.model.MyCourseList;
+import BananaBrain.model.Roles;
 import BananaBrain.service.CourseService;
+import BananaBrain.service.RoleService;
 import BananaBrain.service.MyCourseListService;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,27 @@ public class ContentController
     @Autowired
     private MyCourseListService myCourseService;
 
+    @Autowired
+    private RoleService roleService;
+
     @GetMapping("/login")
     public String login(){
         return "login";
     }
 
+    @GetMapping("/quiz")
+    public String quiz(){
+        return "quiz";
+    }
+
     @GetMapping("/req/signup")
     public String signup(){
         return "signup";
+    }
+
+    @GetMapping("/role")
+    public String role(){
+        return "role";
     }
 
     @GetMapping("/index")
@@ -65,6 +79,15 @@ public class ContentController
         return "redirect:/courseList";
     }
 
+    @PostMapping("/role")
+    public String addRole(@RequestParam("role") String roleName) {
+        Roles role = new Roles();
+        role.setRole(roleName);
+        roleService.saveRole(role);
+        return "redirect:/login";
+    }
+
+
     @GetMapping("/courseList")
     public ModelAndView getAllCourse() {
         List<Course> list=service.getAllCourse();
@@ -78,10 +101,28 @@ public class ContentController
         return "CourseEdit";
     }
 
-
     @RequestMapping("/deleteCourse/{id}")
     public String deleteCourse(@PathVariable("id")int id) {
         service.deleteById(id);
         return "redirect:/courseList";
     }
+
+    @Controller
+    @RequestMapping("/student")
+    public class StudentController {
+        @GetMapping("/home")
+        public String studentHome() {
+            return "studentHome";
+        }
+    }
+
+    @Controller
+    @RequestMapping("/teacher")
+    public class TeacherController {
+        @GetMapping("/home")
+        public String teacherHome() {
+            return "teacherHome";
+        }
+    }
+
 }

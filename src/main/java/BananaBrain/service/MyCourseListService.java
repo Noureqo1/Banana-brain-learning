@@ -3,7 +3,7 @@ package BananaBrain.service;
 import java.util.List;
 
 import BananaBrain.model.MyCourseList;
-import BananaBrain.model.MyCourseRepository;
+import BananaBrain.repository.MyCourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
