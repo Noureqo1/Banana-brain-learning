@@ -10,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
-
 @Controller
 public class RegistrationController {
 
@@ -34,10 +32,9 @@ public class RegistrationController {
     @PostMapping(value = "/role/assign")
     public String assignRole(@ModelAttribute("username") String username, @ModelAttribute("role") String roleName) {
         MyAppUser user = myAppUserRepository.findByUsername(username).orElseThrow();
-        Roles role = roleRepository.findByrole(roleName).orElseThrow();
-        user.getRoles().add(role);
+        Roles role = roleRepository.findByRole(roleName).orElseThrow();
+        user.setRole(role);
         myAppUserRepository.save(user);
         return "redirect:/login"; // Redirect to login page
     }
 }
-
