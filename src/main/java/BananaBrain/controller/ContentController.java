@@ -1,6 +1,5 @@
 package BananaBrain.controller;
 
-
 import BananaBrain.model.Course;
 import BananaBrain.model.MyCourseList;
 import BananaBrain.model.Roles;
@@ -42,7 +41,7 @@ public class ContentController
         return "signup";
     }
 
-    @GetMapping("/role")
+    @GetMapping("/assignRole")
     public String role(){
         return "role";
     }
