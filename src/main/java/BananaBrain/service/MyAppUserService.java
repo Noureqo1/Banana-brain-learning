@@ -48,10 +48,11 @@ public class MyAppUserService implements UserDetailsService{
         Roles role = roleRepository.findByrole(roleName)
                 .orElseThrow(() -> new RuntimeException("Role not found"));
 
-        // Add role to user
-        user.getRoles().add(role);
-
         // Save updated user
         repository.save(user);
+    }
+
+    public MyAppUser save(MyAppUser user) {
+        return repository.save(user);
     }
 }

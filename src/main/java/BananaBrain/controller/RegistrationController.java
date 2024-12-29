@@ -47,24 +47,12 @@ public class RegistrationController {
         return "redirect:/assignRole";
     }
 
-//    @PostMapping(value = "/role/assign")
-//    public String assignRole(@ModelAttribute("username") String username, @ModelAttribute("role") String roleName) {
-//        MyAppUser user = myAppUserRepository.findByUsername(username).orElseThrow();
-//        Roles role = roleRepository.findByrole(roleName).orElseThrow();
-//        user.getRoles().add(role);
-//        myAppUserRepository.save(user);
-//        return "redirect:/login"; // Redirect to login page
-//    }
-
-
-
     @PostMapping("/assignRole")
-    public ResponseEntity<String> assignRole(@RequestParam Long userId, @RequestParam String roleName) {
+    public ResponseEntity<String> addRole(@RequestParam("role") String roleName) {
         Roles role = new Roles();
         role.setRole(roleName);
         roleService.saveRole(role);
-        userService.assignRoleToUser(userId, roleName);
-        return ResponseEntity.ok("Role assigned successfully");
+        return ResponseEntity.ok("Role added successfully");
     }
 }
 

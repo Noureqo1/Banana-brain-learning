@@ -26,13 +26,13 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
         MyAppUser user = new MyAppUser();
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        
+        user.setUsername(request.username());
+        user.setEmail(request.email());
+        user.setPassword(passwordEncoder.encode(request.password()));
+
         userService.save(user);
-        
-        var jwtToken = jwtService.generateToken(user);
+        var userDetails = userService.loadUserByUsername(user.getUsername());
+        var jwtToken = jwtService.generateToken(userDetails);
         return ResponseEntity.ok(AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build());
@@ -42,12 +42,12 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
+                        request.username(),
+                        request.password()
                 )
         );
-        var user = userService.loadUserByUsername(request.getUsername());
-        var jwtToken = jwtService.generateToken(user);
+        var userDetails = userService.loadUserByUsername(request.username());
+        var jwtToken = jwtService.generateToken(userDetails);
         return ResponseEntity.ok(AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build());

@@ -78,15 +78,6 @@ public class ContentController
         return "redirect:/courseList";
     }
 
-    @PostMapping("/role")
-    public String addRole(@RequestParam("role") String roleName) {
-        Roles role = new Roles();
-        role.setRole(roleName);
-        roleService.saveRole(role);
-        return "redirect:/login";
-    }
-
-
     @GetMapping("/courseList")
     public ModelAndView getAllCourse() {
         List<Course> list=service.getAllCourse();

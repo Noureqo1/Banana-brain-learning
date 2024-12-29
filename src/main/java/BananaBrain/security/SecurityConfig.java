@@ -1,11 +1,7 @@
 package BananaBrain.security;
 
-import BananaBrain.model.MyAppUser;
 import BananaBrain.repository.MyAppUserRepository;
-import BananaBrain.security.JwtAuthenticationFilter;
 import BananaBrain.service.MyAppUserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,35 +9,27 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.session.SessionCreationPolicy;
-
-import java.io.IOException;
 
 @EnableWebSecurity
 @AllArgsConstructor
 @Configuration
 public class SecurityConfig {
 
-    @Autowired
-    private MyAppUserService appUserService;
+    private final MyAppUserService appUserService;
 
-    @Autowired
-    private MyAppUserRepository myAppUserRepository;
+    private final MyAppUserRepository myAppUserRepository;
 
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthFilter;
+    private final JwtService jwtService;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -68,32 +56,20 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
+        httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilter(new JwtAuthenticationFilter(jwtService, userDetailsService()))
                 .formLogin(httpForm -> {
                     httpForm.loginPage("/login").permitAll();
                     httpForm.defaultSuccessUrl("/index");
-//                    httpForm.successHandler(new AuthenticationSuccessHandler() {
-//                        @Override
-//                        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-//                            MyAppUser user = (MyAppUser) appUserService.loadUserByUsername(authentication.getName());
-//                            if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("student"))) {
-//                                response.sendRedirect("/student/home");
-//                            } else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("teacher"))) {
-//                                response.sendRedirect("/teacher/home");
-//                            } else {
-//                                response.sendRedirect("/index");
-//                            }
-//                        }
-//                    });
                 })
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers("/api/auth/**", "/req/signup", "/role", "/css/**", "/js/**", "/assets/**").permitAll();
                     registry.anyRequest().authenticated();
                 })
                 .build();
+        return httpSecurity.build();
     }
 }
