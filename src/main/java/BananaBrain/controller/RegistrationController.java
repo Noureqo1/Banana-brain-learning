@@ -44,7 +44,7 @@ public class RegistrationController {
         redirectAttributes.addAttribute("userId", savedUser.getId());
 
         // Redirect to the role selection page with userId as a query parameter
-        return "redirect:/assignRole";
+        return "redirect:/login";
     }
 
     @PostMapping("/assignRole")

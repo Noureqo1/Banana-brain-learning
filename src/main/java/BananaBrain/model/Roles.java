@@ -19,23 +19,4 @@ public class Roles {
     @Getter
     @Column(nullable = false)
     private String role;
-
-    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<MyAppUser> users = new HashSet<>();
-
-    // Constructor
-    public Roles() {}
-
-    public Roles(String role) {
-        this.role = role;
-    }
-
-    // Getter for users
-    public Set<MyAppUser> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<MyAppUser> users) {
-        this.users = users;
-    }
 }

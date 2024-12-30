@@ -96,23 +96,4 @@ public class ContentController
         service.deleteById(id);
         return "redirect:/courseList";
     }
-
-    @Controller
-    @RequestMapping("/student")
-    public class StudentController {
-        @GetMapping("/home")
-        public String studentHome() {
-            return "studentHome";
-        }
-    }
-
-    @Controller
-    @RequestMapping("/teacher")
-    public class TeacherController {
-        @GetMapping("/home")
-        public String teacherHome() {
-            return "teacherHome";
-        }
-    }
-
 }

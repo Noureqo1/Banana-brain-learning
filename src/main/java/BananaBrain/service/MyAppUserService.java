@@ -34,22 +34,15 @@ public class MyAppUserService implements UserDetailsService{
             return User.builder()
                     .username(userObj.getUsername())
                     .password(userObj.getPassword())
+                    .authorities("ROLE_USER")
+                    .accountExpired(false)
+                    .accountLocked(false)
+                    .credentialsExpired(false)
+                    .disabled(false)
                     .build();
         }else{
             throw new UsernameNotFoundException(username);
         }
-    }
-    public void assignRoleToUser(Long userId, String roleName) {
-        // Fetch user by ID
-        MyAppUser user = repository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Fetch role by name
-        Roles role = roleRepository.findByrole(roleName)
-                .orElseThrow(() -> new RuntimeException("Role not found"));
-
-        // Save updated user
-        repository.save(user);
     }
 
     public MyAppUser save(MyAppUser user) {
