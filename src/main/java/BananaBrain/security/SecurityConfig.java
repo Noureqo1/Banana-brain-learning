@@ -60,6 +60,8 @@ public class SecurityConfig {
                                 "/login",
                                 "/register",
                                 "/quiz",
+                                "/assignRole",
+                                "student/index",
                                 "/css/**",
                                 "/js/**",
                                 "/assets/**",
@@ -71,7 +73,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/api/auth/login-form")
-                        .defaultSuccessUrl("/", true)
+                        .defaultSuccessUrl("/assignRole", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
