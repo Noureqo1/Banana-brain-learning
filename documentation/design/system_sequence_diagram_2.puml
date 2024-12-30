@@ -1,11 +1,24 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+actor User
+participant System
 
-autonumber
+User -> System: selects a course
+User -> System: initiateQuiz
+System -> System: fetch questions
+System --> User: generateQuiz(numOfQuestions)
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+loop for each question
+    User --> System: answerquestion(answer)
+    System -> System: evaluateAnswer(answer)
+    System --> User: displayanswer()
+end
+
+alt not all questions answered
+    System --> User: displayMessage("not all questions answered")
+else all questions answered
+    User -> System: submitQuiz(answers)
+    System -> System: saveQuizResults()
+    System --> User: displaygrade(score)
+end
 @enduml

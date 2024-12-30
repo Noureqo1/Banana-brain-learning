@@ -1,95 +1,62 @@
 @startuml
-
-class User {
+class User
+{
     +userId
     +username
     +password
     +age
     +email
     +total_points
-    +badges
-}
 
-class Course {
+}
+class Course
+{
     +courseId
+    +CourseName
     +title
     +description
     +topics
     +prerequisites
 }
-
-class Topic {
+class Topic
+{
     +topicId
     +title
     +description
     +questions
 }
-
-class Question {
+class Question
+{
     +questionId
-    +question
+    +text
     +options
     +correctAnswer
 }
-
-class Quiz {
+class Quiz
+{
     +quizId
     +title
     +questions
     +totalScore
     +userId
 }
-
-class Leaderboard {
-    +topUsers
+class Leaderboard
+{
+    +player
+    +score
+    +category
+    +difficulty
+    +num_of_questions
+    +date
 }
 
-class Badge {
-    +badgeId
-    +title
-    +description
-    +criteria
-}
 
-class Enrollment {
-    +enrollmentId
-    +userId
-    +courseId
-    +dateEnrolled
-    +completionStatus
-}
-
-class TopicQuestion {
-    +questionId
-    +question
-    +correctAnswer
-}
-
-class Authorization {
-    +authorizationId
-    +username
-    +password
-    +email
-    +age
-}
-
-class QuizGenerator {
-    +generatorId
-}
-
-' Relationships
-User "1" -- "0..*" Enrollment : participates in
 User "1" -- "1" Leaderboard : views
-Enrollment "1" -- "1" Course : enrolls in
+User "1" -- "0..*" Course : enrolls in
 Course "1" -- "0..*" Topic : contains
-Topic "1" -- "10..40" Question : contains
+Topic "1" -- "*" Question : contains
 User "1" -- "0..*" Quiz : takes
 Quiz "1" -- "10..20*" Question : contains
-User "1" -- "0.." Badge : earns
-Authorization "1" -- "1" User : manages
-QuizGenerator "1" -- "0..*" Quiz : generates
-Topic "1" -- "0..*" TopicQuestion : contains
-Badge "1" -- "1" Course : associated with
-User "1" -- "0..*" TopicQuestion : solves
-Question "10..40" -- "1" TopicQuestion : contains
+
+
 @enduml

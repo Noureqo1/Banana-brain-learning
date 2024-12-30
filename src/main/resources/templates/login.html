@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<main layout:fragment="content">
+  <section>
+    <form action="/api/auth/login-form" method="post">
+      <h1>Login</h1>
+      <div class="inputbox">
+        <ion-icon name="person-outline"></ion-icon>
+        <input name="username" id="username" type="text" required>
+        <label for="username">Username</label>
+      </div>
+      <div class="inputbox">
+        <ion-icon name="lock-closed-outline"></ion-icon>
+        <input name="password" type="password" id="password" required>
+        <label for="password">Password</label>
+      </div>
+      <div th:if="${param.error}" class="error-message" style="color: red; text-align: center;">
+        Invalid username or password
+      </div>
+      <div th:if="${param.logout}" class="success-message" style="color: green; text-align: center;">
+        You have been logged out successfully
+      </div>
+      <button type="submit">Log in</button>
+      <div class="register">
+        <p>Don't have an account? <a href="/register">Register</a></p>
+      </div>
+    </form>
+  </section>
+</main>
+</body>
+</html>
