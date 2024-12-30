@@ -202,7 +202,43 @@ const showScore = () => {
   quiz.classList.add("hide");
   finalScore.innerHTML = score;
   totalScore.innerHTML = `/ ${questions.length}`;
+  submitScore(score);
 };
+
+async function submitScore(finalScore) {
+  try {
+    const response = await fetch('/quiz/submit-score', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        score: finalScore,
+        category: document.getElementById('category').value,
+        difficulty: document.getElementById('difficulty').value,
+        totalQuestions: document.getElementById('num-questions').value
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to submit score');
+    }
+
+    const result = await response.json();
+    console.log('Score submitted successfully:', result);
+
+    // Add a button to view the leaderboard
+    const leaderboardBtn = document.createElement('button');
+    leaderboardBtn.className = 'btn';
+    leaderboardBtn.textContent = 'View Leaderboard';
+    leaderboardBtn.onclick = () => window.location.href = '/quiz/leaderboard';
+
+    document.querySelector('.end-screen').appendChild(leaderboardBtn);
+
+  } catch (error) {
+    console.error('Error submitting score:', error);
+  }
+}
 
 const restartBtn = document.querySelector(".restart");
 restartBtn.addEventListener("click", () => {

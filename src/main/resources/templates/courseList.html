@@ -47,11 +47,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/quiz">Quizs</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/quiz/leaderboard">Leaderboard</a>
+                </li>
             </ul>
             <ul class="navbar-nav">
             <div class="d-flex align-items-center" th:if="${isAuthenticated}">
                 <div class="me-3">
-                    <span class="text-muted me-2">Welcome,</span>
                     <span class="fw-bold" th:text="${currentUser.username}"></span>
                     <span class="text-muted ms-2" th:text="${'(' + currentUser.email + ')'}"></span>
                 </div>
@@ -66,8 +68,7 @@
                     <i class="fas fa-sign-in-alt"></i> Login
                 </a>
             </div>
-    </div>
-    </ul>
+        </div>
     <!-- Social Media Links -->
     <ul class="nav__socials">
         <li>
