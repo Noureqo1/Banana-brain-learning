@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/base}">
+<html xmlns:layout="">
 <head>
     <title>Home</title>
     <meta charset="UTF-8" />
@@ -13,33 +12,6 @@
 </head>
 <body>
     <main layout:fragment="content">
-        <nav>
-            <div class="nav__logo">
-                <div><img src="assets/logo.png" alt="Logo" /></div>
-                BananaBrain
-            </div>
-            <ul class="nav__socials">
-                <li>
-                    <a href="https://github.com/darkhyper24/Banana-brain-learning"><i class="ri-github-fill"></i></a>
-                </li>
-            </ul>
-            <div class="nav__contact">
-                <div class="nav__contact__card">
-                    <span><i class="ri-phone-line"></i></span>
-                    <div>
-                        <p>Call Us</p>
-                        <h4>+20 12065 4321</h4>
-                    </div>
-                </div>
-                <div class="nav__contact__card">
-                    <span><i class="ri-mail-line"></i></span>
-                    <div>
-                        <p>Email Us</p>
-                        <h4>info@BananaBrain.com</h4>
-                    </div>
-                </div>
-            </div>
-        </nav>
         <header class="header__container">
             <div class="header__image">
                 <img src="assets/header.png" alt="header" />
@@ -89,5 +61,6 @@
 <!--    </main>-->
     <script src="https://unpkg.com/scrollreveal"></script>
     <script src="js/main.js"></script>
+    </main>
 </body>
 </html>

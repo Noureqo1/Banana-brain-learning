@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/base}">
+<html xmlns:layout="" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>My Courses</title>
     <meta charset="UTF-8" />
@@ -16,55 +15,84 @@
             rel="stylesheet"
     />
     <script src="https://kit.fontawesome.com/0faddc1af8.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/courseList.css" />
     <link rel="stylesheet" href="css/index.css" />
 </head>
+
 <body>
-<main layout:fragment="content">
-    <div class="container mt-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1>My Courses</h1>
-            <a href="/courseList" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Add New Course
-            </a>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <!-- Logo Section -->
+        <div class="nav__logo">
+            <div><img src="assets/logo.png" alt="Logo" /></div>
+            BananaBrain
         </div>
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover mb-0">
-                        <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Teacher</th>
-                            <th scope="col">Price</th>
-                            <th scope="col" class="text-end">Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="b :${course}">
-                            <td th:text="${b.id}"></td>
-                            <td th:text="${b.name}"></td>
-                            <td th:text="${b.teacher}"></td>
-                            <td th:text="${b.price}"></td>
-                            <td class="text-end">
-                                <a class="btn btn-outline-danger btn-sm" th:href="@{/deleteMyList/{id}(id=${b.id})}">
-                                    <i class="fas fa-trash-alt"></i> Remove
-                                </a>
-                            </td>
-                        </tr>
-                        <tr th:if="${#lists.isEmpty(course)}">
-                            <td colspan="5" class="text-center py-4">
-                                <div class="text-muted">
-                                    <i class="fas fa-book fa-2x mb-3"></i>
-                                    <p class="mb-0">You haven't enrolled in any courses yet.</p>
-                                    <a href="/courseList" class="btn btn-primary btn-sm mt-3">Browse Courses</a>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+
+        <!-- Toggle for responsive design -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/courseList">View Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/myCourses">My Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/courseRegister">Add Course</a>
+                </li>
+            </ul>
+            <!-- Social Media Links -->
+            <ul class="nav__socials">
+                <li>
+                    <a href="https://github.com/darkhyper24/Banana-brain-learning"><i class="ri-github-fill"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<main layout:fragment="content">
+    <div class="container">
+        <div class="page-header">
+            <h2 class="text-center">My Enrolled Courses</h2>
+            <p class="text-muted text-center">Manage your enrolled courses and track your progress</p>
+        </div>
+
+        <div class="course-grid">
+            <div class="course-card" th:each="course : ${course}">
+                <img class="course-image" th:src="@{/assets/course.png}" alt="Course Image">
+                <div class="course-content">
+                    <h3 class="course-title" th:text="${course.name}">Course Name</h3>
+                    <div class="course-meta">
+                        <span class="course-price" th:text="'EGP ' + ${course.price}">EGP 0</span>
+                    </div>
+                    <div class="course-actions">
+                        <a class="btn btn-primary btn-sm" th:href="@{/course/{id}(id=${course.id})}">
+                            <i class="fas fa-play-circle"></i> Continue Learning
+                        </a>
+                        <a class="btn btn-outline-danger btn-sm" th:href="@{/deleteMyList/{id}(id=${course.id})}">
+                            <i class="fas fa-trash-alt"></i> Unroll
+                        </a>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Empty state message -->
+        <div class="text-center mt-5" th:if="${#lists.isEmpty(course)}">
+            <i class="fas fa-books fa-3x text-muted mb-3"></i>
+            <h3>No Courses Yet</h3>
+            <p class="text-muted">You haven't enrolled in any courses yet.</p>
+            <a th:href="@{/courseList}" class="btn btn-primary">
+                <i class="fas fa-search"></i> Browse Courses
+            </a>
         </div>
     </div>
 </main>

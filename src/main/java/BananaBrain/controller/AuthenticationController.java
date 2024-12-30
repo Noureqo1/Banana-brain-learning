@@ -72,7 +72,7 @@ public class AuthenticationController {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             MyAppUser user = (MyAppUser) authentication.getPrincipal();
-            return "redirect:/courses";
+            return "redirect:/assignRole";
 
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Invalid username or password");
