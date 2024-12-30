@@ -1,93 +1,155 @@
 package BananaBrain.controller;
 
 import BananaBrain.model.MyAppUser;
-import BananaBrain.repository.MyAppUserRepository;
 import BananaBrain.security.JwtService;
 import BananaBrain.service.MyAppUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@RestController
-@RequestMapping("/api/auth")
+import java.security.Principal;
+import java.util.Map;
+
+@Controller
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    @Autowired
-    private MyAppUserRepository myAppUserRepository;
-
+    private final AuthenticationManager authenticationManager;
     private final MyAppUserService userService;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
 
-    @PostMapping(value = "/register", consumes = "application/json")
-    public ResponseEntity<AuthenticationResponse> register(@ModelAttribute MyAppUser user)
-    {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        myAppUserRepository.save(user);
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
+    }
 
-        var userDetails = userService.loadUserByUsername(user.getUsername());
-        var jwtToken = jwtService.generateToken(userDetails);
-        return ResponseEntity.ok(AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build());
+    @GetMapping("/signup")
+    public String signupPage() {
+        return "signup";
+    }
+
+    @PostMapping("/register")
+    public String register(@RequestParam String username,
+                           @RequestParam String email,
+                           @RequestParam String password,
+                           RedirectAttributes redirectAttributes) {
+        try {
+            // Check if username already exists
+            if (userService.findByUsername(username).isPresent()) {
+                redirectAttributes.addFlashAttribute("error", "Username already exists");
+                return "redirect:/signup";
+            }
+
+            // Create and save new user
+            MyAppUser newUser = new MyAppUser();
+            newUser.setUsername(username);
+            newUser.setEmail(email);
+            newUser.setPassword(passwordEncoder.encode(password));
+
+            userService.save(newUser);
+
+            // Add success message
+            redirectAttributes.addFlashAttribute("success", "Registration successful! Please login.");
+            return "redirect:/login";
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Registration failed: " + e.getMessage());
+            return "redirect:/signup";
+        }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
+    public String login(@RequestParam String username,
+                        @RequestParam String password,
+                        RedirectAttributes redirectAttributes) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.username(),
-                            request.password()
-                    )
+                    new UsernamePasswordAuthenticationToken(username, password)
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            var userDetails = userService.loadUserByUsername(request.username());
-            var jwtToken = jwtService.generateToken(userDetails);
+            MyAppUser user = (MyAppUser) authentication.getPrincipal();
+            return "redirect:/courses";
 
-            return ResponseEntity.ok(AuthenticationResponse.builder()
-                    .token(jwtToken)
-                    .build());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            redirectAttributes.addFlashAttribute("error", "Invalid username or password");
+            return "redirect:/login";
         }
     }
+    // For API clients
+    @RestController
+    @RequestMapping("/api/auth")
+    public static class AuthenticationRestController {
+        private final AuthenticationManager authenticationManager;
+        private final MyAppUserService userService;
+        private final JwtService jwtService;
+        private final PasswordEncoder passwordEncoder;
 
-    @PostMapping("/logout")
-    public ResponseEntity<Void> logout() {
-        SecurityContextHolder.clearContext();
-        return ResponseEntity.ok().build();
-    }
-}
-
-record AuthenticationRequest(String username, String password) {}
-record RegisterRequest(String username, String email, String password) {}
-
-record AuthenticationResponse(String token) {
-    public static AuthenticationResponseBuilder builder() {
-        return new AuthenticationResponseBuilder();
-    }
-
-    static class AuthenticationResponseBuilder {
-        private String token;
-
-        AuthenticationResponseBuilder token(String token) {
-            this.token = token;
-            return this;
+        public AuthenticationRestController(
+                AuthenticationManager authenticationManager,
+                MyAppUserService userService,
+                JwtService jwtService,
+                PasswordEncoder passwordEncoder) {
+            this.authenticationManager = authenticationManager;
+            this.userService = userService;
+            this.jwtService = jwtService;
+            this.passwordEncoder = passwordEncoder;
         }
 
-        AuthenticationResponse build() {
-            return new AuthenticationResponse(token);
+        @PostMapping("/login")
+        public ResponseEntity<Map<String, String>> apiLogin(@RequestBody Map<String, String> loginRequest) {
+            try {
+                Authentication authentication = authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                loginRequest.get("username"),
+                                loginRequest.get("password")
+                        )
+                );
+                MyAppUser user = (MyAppUser) authentication.getPrincipal();
+                String token = jwtService.generateToken(user);
+                return ResponseEntity.ok(Map.of("token", token));
+            } catch (Exception e) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Invalid credentials"));
+            }
+        }
+
+        @PostMapping("/register")
+        public ResponseEntity<?> apiRegister(@RequestBody Map<String, String> registrationRequest) {
+            try {
+                String username = registrationRequest.get("username");
+                String password = registrationRequest.get("password");
+                String email = registrationRequest.get("email");
+
+                if (username == null || password == null || email == null) {
+                    return ResponseEntity.badRequest()
+                            .body(Map.of("error", "Username, password, and email are required"));
+                }
+
+                if (userService.findByUsername(username).isPresent()) {
+                    return ResponseEntity.badRequest()
+                            .body(Map.of("error", "Username already exists"));
+                }
+
+                MyAppUser newUser = new MyAppUser();
+                newUser.setUsername(username);
+                newUser.setEmail(email);
+                newUser.setPassword(passwordEncoder.encode(password));
+
+                userService.save(newUser);
+
+                return ResponseEntity.ok(Map.of("message", "User registered successfully"));
+            } catch (Exception e) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "Registration failed: " + e.getMessage()));
+            }
         }
     }
 }
