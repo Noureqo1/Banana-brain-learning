@@ -3,7 +3,6 @@ package BananaBrain.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Builder
@@ -24,7 +24,7 @@ public class MyAppUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(unique = true)
     private String username;
@@ -36,19 +36,50 @@ public class MyAppUser implements UserDetails {
     @Builder.Default
     private Set<UserCourse> enrolledCourses = new HashSet<>();
 
+    public void enrollInCourse(Course course) {
+        if (!isEnrolledInCourse(course)) {
+            UserCourse userCourse = new UserCourse();
+            userCourse.setUser(this);
+            userCourse.setCourse(course);
+            enrolledCourses.add(userCourse);
+        }
+    }
+
+    public void unenrollFromCourse(Course course) {
+        enrolledCourses.removeIf(userCourse -> {
+            if (userCourse.getCourse().equals(course)) {
+                userCourse.setUser(null);
+                userCourse.setCourse(null);
+                return true;
+            }
+            return false;
+        });
+    }
+
+    public boolean isEnrolledInCourse(Course course) {
+        return enrolledCourses.stream()
+                .anyMatch(userCourse -> userCourse.getCourse().equals(course));
+    }
+
+    public Set<Course> getEnrolledCourseSet() {
+        return enrolledCourses.stream()
+                .map(UserCourse::getCourse)
+                .collect(Collectors.toSet());
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("USER"));
     }
 
     @Override
-    public String getUsername() {
-        return username;
+    public String getPassword() {
+        return password;
     }
 
     @Override
-    public String getPassword() {
-        return password;
+    public String getUsername() {
+        return username;
     }
 
     @Override
@@ -71,30 +102,11 @@ public class MyAppUser implements UserDetails {
         return true;
     }
 
-    // Helper methods
-    public void enrollInCourse(Course course) {
-        UserCourse userCourse = new UserCourse();
-        userCourse.setUser(this);
-        userCourse.setCourse(course);
-        enrolledCourses.add(userCourse);
-        course.getEnrolledUsers().add(userCourse);
-    }
-
-    public void unenrollFromCourse(Course course) {
-        enrolledCourses.removeIf(userCourse -> {
-            if (userCourse.getCourse().equals(course)) {
-                course.getEnrolledUsers().remove(userCourse);
-                return true;
-            }
-            return false;
-        });
-    }
-
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

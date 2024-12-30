@@ -29,6 +29,15 @@ public class CourseController {
     public String listCourses(Model model, Authentication authentication) {
         List<Course> courses = courseRepository.findAll();
         model.addAttribute("course", courses);
+
+        if (authentication != null) {
+            MyAppUser user = (MyAppUser) userService.loadUserByUsername(authentication.getName());
+            List<Integer> enrolledCourseIds = user.getEnrolledCourses().stream()
+                    .map(uc -> uc.getCourse().getId())
+                    .collect(Collectors.toList());
+            model.addAttribute("enrolledCourseIds", enrolledCourseIds);
+        }
+
         return "courseList";
     }
 
@@ -51,7 +60,7 @@ public class CourseController {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid course ID"));
 
-        if (!userCourseRepository.existsByUserAndCourse(user, course)) {
+        if (!user.isEnrolledInCourse(course)) {
             user.enrollInCourse(course);
             userService.save(user);
         }
@@ -66,11 +75,14 @@ public class CourseController {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid course ID"));
 
-        userCourseRepository.findByUserAndCourse(user, course)
-                .ifPresent(userCourse -> {
-                    user.unenrollFromCourse(course);
-                    userService.save(user);
-                });
+        UserCourse userCourse = userCourseRepository.findByUserAndCourse(user, course)
+                .orElse(null);
+
+        if (userCourse != null) {
+            user.unenrollFromCourse(course);
+            userCourseRepository.delete(userCourse);
+            userService.save(user);
+        }
 
         return "redirect:/myCourses";
     }
@@ -78,7 +90,6 @@ public class CourseController {
     @GetMapping("/courseRegister")
     public String showCourseForm(Model model) {
         model.addAttribute("course", new Course());
-        model.addAttribute("isProtectedPage", true);
         return "courseRegister";
     }
 
