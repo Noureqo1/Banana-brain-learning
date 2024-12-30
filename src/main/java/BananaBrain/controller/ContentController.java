@@ -32,11 +32,6 @@ public class ContentController
         return "signup";
     }
 
-    @GetMapping("/assignRole")
-    public String role(){
-        return "role";
-    }
-
     @GetMapping("/index")
     public String home(){
         return "index";
