@@ -1,6 +1,5 @@
 package BananaBrain.controller;
 
-
 import BananaBrain.model.Course;
 import BananaBrain.model.MyCourseList;
 import BananaBrain.model.Roles;
@@ -27,22 +26,13 @@ public class ContentController
     @Autowired
     private RoleService roleService;
 
-    @GetMapping("/login")
-    public String login(){
-        return "login";
-    }
 
-    @GetMapping("/quiz")
-    public String quiz(){
-        return "quiz";
-    }
-
-    @GetMapping("/req/signup")
+    @GetMapping("/register")
     public String signup(){
         return "signup";
     }
 
-    @GetMapping("/role")
+    @GetMapping("/assignRole")
     public String role(){
         return "role";
     }
@@ -51,20 +41,6 @@ public class ContentController
     public String home(){
         return "index";
     }
-
-    @GetMapping("/courseRegister")
-    public String Register(){
-        return "courseRegister";
-    }
-
-    @GetMapping("/myCourses")
-    public String getMyCourses(Model model)
-    {
-        List<MyCourseList>list = myCourseService.getAllMyCourse();
-        model.addAttribute("course",list);
-        return "myCourses";
-    }
-
     @RequestMapping("/mylist/{id}")
     public String getMyList(@PathVariable("id") int id) {
         Course c=service.getCourseById(id);
@@ -79,21 +55,6 @@ public class ContentController
         return "redirect:/courseList";
     }
 
-    @PostMapping("/role")
-    public String addRole(@RequestParam("role") String roleName) {
-        Roles role = new Roles();
-        role.setRole(roleName);
-        roleService.saveRole(role);
-        return "redirect:/login";
-    }
-
-
-    @GetMapping("/courseList")
-    public ModelAndView getAllCourse() {
-        List<Course> list=service.getAllCourse();
-        return new ModelAndView("courseList","course",list);
-    }
-
     @RequestMapping("/editCourse/{id}")
     public String editCourse(@PathVariable("id") int id, Model model) {
         Course c=service.getCourseById(id);
@@ -106,23 +67,4 @@ public class ContentController
         service.deleteById(id);
         return "redirect:/courseList";
     }
-
-    @Controller
-    @RequestMapping("/student")
-    public class StudentController {
-        @GetMapping("/home")
-        public String studentHome() {
-            return "studentHome";
-        }
-    }
-
-    @Controller
-    @RequestMapping("/teacher")
-    public class TeacherController {
-        @GetMapping("/home")
-        public String teacherHome() {
-            return "teacherHome";
-        }
-    }
-
 }

@@ -3,6 +3,8 @@ package BananaBrain.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -18,24 +20,4 @@ public class Roles {
     @Getter
     @Column(nullable = false)
     private String role;
-
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "user_id")
-    private MyAppUser user;
-
-    // Constructor
-    public Roles() {}
-
-    public Roles(String role) {
-        this.role = role;
-    }
-
-    // Getter for user
-    public MyAppUser getUser() {
-        return user;
-    }
-
-    public void setUser(MyAppUser user) {
-        this.user = user;
-    }
 }

@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const passwordInput = document.querySelector('input[type="password"]');
       const confirmPasswordInput = document.querySelector('input[type="password"][name="confirm-password"]');
 
+      // Check for a valid email and password (you can add your validation logic here)
       const isValid = emailInput.checkValidity() && passwordInput.checkValidity() && confirmPasswordInput.checkValidity();
   
       if (!isValid) {

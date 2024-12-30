@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
 <head>
+    <title>Home</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
@@ -10,52 +12,82 @@
     <link rel="stylesheet" href="css/index.css" />
 </head>
 <body>
-<nav>
-    <div class="nav__logo">
-        <div><img src="assets/logo.png" alt="Logo" /></div>
-        BananaBrain
-    </div>
-    <ul class="nav__socials">
-        <li>
-            <a href="https://github.com/darkhyper24/Banana-brain-learning"><i class="ri-github-fill"></i></a>
-        </li>
-    </ul>
-    <div class="nav__contact">
-        <div class="nav__contact__card">
-            <span><i class="ri-phone-line"></i></span>
-            <div>
-                <p>Call Us</p>
-                <h4>+20 12065 4321</h4>
+    <main layout:fragment="content">
+        <nav>
+            <div class="nav__logo">
+                <div><img src="assets/logo.png" alt="Logo" /></div>
+                BananaBrain
             </div>
-        </div>
-        <div class="nav__contact__card">
-            <span><i class="ri-mail-line"></i></span>
-            <div>
-                <p>Email Us</p>
-                <h4>info@BananaBrain.com</h4>
+            <ul class="nav__socials">
+                <li>
+                    <a href="https://github.com/darkhyper24/Banana-brain-learning"><i class="ri-github-fill"></i></a>
+                </li>
+            </ul>
+            <div class="nav__contact">
+                <div class="nav__contact__card">
+                    <span><i class="ri-phone-line"></i></span>
+                    <div>
+                        <p>Call Us</p>
+                        <h4>+20 12065 4321</h4>
+                    </div>
+                </div>
+                <div class="nav__contact__card">
+                    <span><i class="ri-mail-line"></i></span>
+                    <div>
+                        <p>Email Us</p>
+                        <h4>info@BananaBrain.com</h4>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</nav>
-<header class="header__container">
-    <div class="header__image">
-        <img src="assets/header.png" alt="header" />
-    </div>
-    <div class="header__content">
-        <h1>Single Platform For All Your <span>Learning</span> Needs.</h1>
-        <p>
-            Whether you're seeking to enhance your professional skills, explore
-            new hobbies, or pursue academic interests, our comprehensive platform
-            offers diverse courses and resources tailored to support your lifelong
-            learning journey.
-        </p>
-        <form action="/">
-            <button type="submit"><a href="/courseList">View Courses</a></button>
-        </form>
-    </div>
-</header>
-
-<script src="https://unpkg.com/scrollreveal"></script>
-<script src="js/main.js"></script>
+        </nav>
+        <header class="header__container">
+            <div class="header__image">
+                <img src="assets/header.png" alt="header" />
+            </div>
+            <div class="header__content">
+                <h1>Single Platform For All Your <span>Learning</span> Needs.</h1>
+                <p>
+                    Whether you're seeking to enhance your professional skills, explore
+                    new hobbies, or pursue academic interests, our comprehensive platform
+                    offers diverse courses and resources tailored to support your lifelong
+                    learning journey.
+                </p>
+                <form action="/">
+                    <button type="submit"><a href="/courseList">View Courses</a></button>
+                </form>
+            </div>
+        </header>
+<!--        <div class="container mt-5">-->
+<!--            <div class="row justify-content-center">-->
+<!--                <div class="col-md-8 text-center">-->
+<!--                    <h1>Welcome to BananaBrain</h1>-->
+<!--                    <p class="lead">Your one-stop platform for online learning</p>-->
+<!--                    -->
+<!--                    <div class="row mt-5">-->
+<!--                        <div class="col-md-6">-->
+<!--                            <div class="card mb-4">-->
+<!--                                <div class="card-body">-->
+<!--                                    <h5 class="card-title">For Students</h5>-->
+<!--                                    <p class="card-text">Browse courses, track your progress, and enhance your learning journey.</p>-->
+<!--                                    <a href="/courseList" class="btn btn-primary">View Courses</a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-md-6">-->
+<!--                            <div class="card mb-4">-->
+<!--                                <div class="card-body">-->
+<!--                                    <h5 class="card-title">For Teachers</h5>-->
+<!--                                    <p class="card-text">Create courses, manage content, and engage with students.</p>-->
+<!--                                    <a href="/courseRegister" class="btn btn-primary">Create Course</a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </main>-->
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
