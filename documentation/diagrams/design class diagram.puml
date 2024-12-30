@@ -1,0 +1,82 @@
+@startuml
+class MyAppUser {
+    - Long id
+    - String username
+    - String email
+    - String password
+    + enrollInCourse(Course)
+    + unenrollFromCourse(Course)
+    + isEnrolledInCourse(Course)
+}
+
+class Course {
+    - Integer id
+    - String name
+    - String teacher
+    - String price
+    + enrollUser(MyAppUser)
+    + unenrollUser(MyAppUser)
+}
+
+class UserCourse {
+    - Integer id
+    - LocalDateTime enrolledDate
+}
+
+class QuizScore {
+    - Long id
+    - int score
+    - String category
+    - String difficulty
+    - int totalQuestions
+    - LocalDateTime completedAt
+}
+
+class AuthenticationController {
+    + login()
+    + register()
+}
+
+class CourseController {
+    + listCourses()
+    + enrollInCourse()
+    + unenrollFromCourse()
+    + registerCourse()
+}
+
+class QuizController {
+    + submitScore()
+    + showLeaderboard()
+    + showMyScores()
+}
+
+class MyAppUserService {
+    + loadUserByUsername()
+    + save()
+}
+
+class CourseService {
+    + save()
+    + getAllCourse()
+    + getCourseById()
+    + deleteById()
+}
+
+class QuizScoreService {
+    + saveScore()
+    + getLeaderboard()
+    + getUserScores()
+}
+
+MyAppUser "1" --* "*" UserCourse
+Course "1" --* "*" UserCourse
+MyAppUser "1" --* "*" QuizScore
+
+AuthenticationController ..> MyAppUserService
+CourseController ..> CourseService
+QuizController ..> QuizScoreService
+
+MyAppUserService ..> MyAppUser
+CourseService ..> Course
+QuizScoreService ..> QuizScore
+@enduml
