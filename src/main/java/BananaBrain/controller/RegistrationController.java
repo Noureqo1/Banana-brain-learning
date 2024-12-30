@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
 @Controller
 public class RegistrationController {
 
@@ -46,7 +45,6 @@ public class RegistrationController {
         // Redirect to the role selection page with userId as a query parameter
         return "redirect:/login";
     }
-
     @PostMapping("/assignRole")
     public ResponseEntity<String> addRole(@RequestParam("role") String roleName) {
         Roles role = new Roles();
@@ -55,4 +53,3 @@ public class RegistrationController {
         return ResponseEntity.ok("Role added successfully");
     }
 }
-
