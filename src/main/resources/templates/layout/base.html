@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$CONTENT_TITLE - BananaBrain">BananaBrain</title>
+
+    <!-- Common CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Common JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Page specific head content -->
+    <th:block layout:fragment="head"></th:block>
+</head>
+<body th:classappend="${isProtectedPage} ? 'protected-page'">
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <div class="nav__logo">
+            <div><img src="/assets/logo.png" alt="Logo" /></div>
+            BananaBrain
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/courseList">View Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/myCourses">My Courses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/courseRegister">Add Course</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/quiz">Quizs</a>
+                </li>
+            </ul>
+
+            <div class="navbar-nav">
+                <a class="nav-link" href="#" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Main content -->
+<main layout:fragment="content">
+    <!-- Page specific content will be inserted here -->
+</main>
+
+<!-- Common JavaScript -->
+<script src="https://kit.fontawesome.com/0faddc1af8.js" crossorigin="anonymous"></script>
+<script src="/js/auth.js" defer></script>
+<script src="/js/logout.js" defer></script>
+
+<!-- Page specific scripts -->
+<th:block layout:fragment="scripts"></th:block>
+</body>
+</html>

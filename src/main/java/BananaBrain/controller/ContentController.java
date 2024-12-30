@@ -50,20 +50,6 @@ public class ContentController
     public String home(){
         return "index";
     }
-
-    @GetMapping("/courseRegister")
-    public String Register(){
-        return "courseRegister";
-    }
-
-    @GetMapping("/myCourses")
-    public String getMyCourses(Model model)
-    {
-        List<MyCourseList>list = myCourseService.getAllMyCourse();
-        model.addAttribute("course",list);
-        return "myCourses";
-    }
-
     @RequestMapping("/mylist/{id}")
     public String getMyList(@PathVariable("id") int id) {
         Course c=service.getCourseById(id);
@@ -76,12 +62,6 @@ public class ContentController
     public String addCourse(@ModelAttribute Course c) {
         service.save(c);
         return "redirect:/courseList";
-    }
-
-    @GetMapping("/courseList")
-    public ModelAndView getAllCourse() {
-        List<Course> list=service.getAllCourse();
-        return new ModelAndView("courseList","course",list);
     }
 
     @RequestMapping("/editCourse/{id}")

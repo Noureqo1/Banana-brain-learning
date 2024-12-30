@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/base}">
 <head>
     <title>Course List</title>
@@ -83,9 +84,24 @@
                 <td th:text="${b.teacher}"></td>
                 <td th:text="${b.price}"></td>
                 <td>
-                    <a class="btn btn-secondary btn-sm" th:href="@{/editCourse/{id}(id=${b.id})}">Edit</a>
-                    <a class="btn btn-danger btn-sm" th:href="@{/deleteCourse/{id}(id=${b.id})}">Delete</a>
-                    <a class="btn btn-primary btn-sm" th:href="@{/mylist/{id}(id=${b.id})}">Add to My Course</a>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-secondary btn-sm"
+                           th:href="@{/editCourse/{id}(id=${b.id})}">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a class="btn btn-danger btn-sm"
+                           th:href="@{/deleteCourse/{id}(id=${b.id})}">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                        <form th:action="@{/mylist/{id}(id=${b.id})}"
+                              method="post"
+                              style="display: inline;">
+                            <button type="submit"
+                                    class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Enroll
+                            </button>
+                        </form>
+                    </div>
                 </td>
             </tr>
             </tbody>

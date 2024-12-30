@@ -1,54 +1,45 @@
 package BananaBrain.model;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@Table(name = "courses")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Course {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
-    private String Teacher;
+    private String teacher;
     private String price;
-    public Course(int id, String name, String Teacher, String price) {
-        super();
-        this.id = id;
-        this.name = name;
-        this.Teacher = Teacher;
-        this.price = price;
-    }
-    public Course() {
-        super();
 
-    }
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getTeacher() {
-        return Teacher;
-    }
-    public void setTeacher(String Teacher) {
-        this.Teacher = Teacher;
-    }
-    public String getPrice() {
-        return price;
-    }
-    public void setPrice(String price) {
-        this.price = price;
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserCourse> enrolledUsers = new HashSet<>();
+
+    // Helper methods
+    public void enrollUser(MyAppUser user) {
+        UserCourse userCourse = new UserCourse();
+        userCourse.setUser(user);
+        userCourse.setCourse(this);
+        enrolledUsers.add(userCourse);
+        user.getEnrolledCourses().add(userCourse);
     }
 
+    public void unenrollUser(MyAppUser user) {
+        enrolledUsers.removeIf(userCourse -> {
+            if (userCourse.getUser().equals(user)) {
+                user.getEnrolledCourses().remove(userCourse);
+                return true;
+            }
+            return false;
+        });
+    }
 }
