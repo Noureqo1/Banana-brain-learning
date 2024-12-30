@@ -42,11 +42,6 @@ public class AuthenticationController {
                            @RequestParam String password,
                            RedirectAttributes redirectAttributes) {
         try {
-            // Check if username already exists
-            if (userService.findByUsername(username).isPresent()) {
-                redirectAttributes.addFlashAttribute("error", "Username already exists");
-                return "redirect:/signup";
-            }
 
             // Create and save new user
             MyAppUser newUser = new MyAppUser();
@@ -133,10 +128,6 @@ public class AuthenticationController {
                             .body(Map.of("error", "Username, password, and email are required"));
                 }
 
-                if (userService.findByUsername(username).isPresent()) {
-                    return ResponseEntity.badRequest()
-                            .body(Map.of("error", "Username already exists"));
-                }
 
                 MyAppUser newUser = new MyAppUser();
                 newUser.setUsername(username);
