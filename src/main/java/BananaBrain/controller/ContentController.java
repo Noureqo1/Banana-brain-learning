@@ -36,7 +36,7 @@ public class ContentController
         return "quiz";
     }
 
-    @GetMapping("/req/signup")
+    @GetMapping("/register")
     public String signup(){
         return "signup";
     }

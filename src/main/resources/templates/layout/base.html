@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title layout:title-pattern="$CONTENT_TITLE - BananaBrain">BananaBrain</title>
+    <title layout:title-pattern="$CONTENT_TITLE - Banana Brain Learning">Banana Brain Learning</title>
 
     <!-- Common CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -11,14 +11,14 @@
     <link rel="stylesheet" href="/css/style.css">
 
     <!-- Common JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/0faddc1af8.js" crossorigin="anonymous"></script>
 
     <!-- Page specific head content -->
     <th:block layout:fragment="head"></th:block>
 </head>
 <body th:classappend="${isProtectedPage} ? 'protected-page'">
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <div class="nav__logo">
             <div><img src="/assets/logo.png" alt="Logo" /></div>
@@ -37,7 +37,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/courseList">View Courses</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" th:if="${isAuthenticated}">
                     <a class="nav-link" href="/myCourses">My Courses</a>
                 </li>
                 <li class="nav-item">
@@ -48,9 +48,46 @@
                 </li>
             </ul>
 
-            <div class="navbar-nav">
-                <a class="nav-link" href="#" id="logoutBtn">Logout</a>
-            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/darkhyper24/Banana-brain-learning" target="_blank">
+                        <i class="ri-github-fill"></i>
+                    </a>
+                </li>
+                <li class="nav-item" th:if="${!isAuthenticated}">
+                    <a class="nav-link btn btn-outline-primary ms-2" href="/login">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                </li>
+                <li class="nav-item dropdown" th:if="${isAuthenticated}">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle me-1"></i>
+                        <span th:text="${currentUser.username}">Username</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li>
+                                <span class="dropdown-item-text">
+                                    <small class="text-muted">Signed in as</small><br>
+                                    <strong th:text="${currentUser.username}">Username</strong>
+                                </span>
+                        </li>
+                        <li>
+                                <span class="dropdown-item-text">
+                                    <small class="text-muted" th:text="${currentUser.email}">email@example.com</small>
+                                </span>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form th:action="@{/logout}" method="post" class="dropdown-item p-0">
+                                <button type="submit" class="btn btn-link text-danger dropdown-item">
+                                    <i class="fas fa-sign-out-alt me-1"></i> Sign Out
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
@@ -61,7 +98,7 @@
 </main>
 
 <!-- Common JavaScript -->
-<script src="https://kit.fontawesome.com/0faddc1af8.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/auth.js" defer></script>
 <script src="/js/logout.js" defer></script>
 

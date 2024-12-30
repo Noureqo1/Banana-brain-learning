@@ -10,7 +10,7 @@
 <body>
     <main layout:fragment="content">
         <section>
-            <form action="/req/signup" method="post">
+            <form action="/register" method="post">
                 <h1>Sign Up</h1>
                 <div class="inputbox">
                     <ion-icon name="person-outline"></ion-icon>
@@ -39,6 +39,7 @@
             </form>
         </section>
     </main>
+
     <script>
         const submitButton = document.getElementById("submit");
         submitButton.addEventListener('click',()=>{
@@ -54,7 +55,7 @@
 
           if(password == confirmPassword){
             const jsonData = JSON.stringify(data);
-            fetch('/req/signup', {
+            fetch('/register', {
               method: 'POST',
               headers:{
                 'Content-Type': 'application/json'

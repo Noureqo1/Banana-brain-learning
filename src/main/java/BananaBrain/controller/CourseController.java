@@ -36,6 +36,10 @@ public class CourseController {
                     .map(uc -> uc.getCourse().getId())
                     .collect(Collectors.toList());
             model.addAttribute("enrolledCourseIds", enrolledCourseIds);
+            model.addAttribute("currentUser", user);
+            model.addAttribute("isAuthenticated", true);
+        } else {
+            model.addAttribute("isAuthenticated", false);
         }
 
         return "courseList";
