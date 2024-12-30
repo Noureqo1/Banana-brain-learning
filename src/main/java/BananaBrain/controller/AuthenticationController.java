@@ -29,16 +29,16 @@ public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping(value = "/register", consumes = "application/json")
-    public MyAppUser register(@ModelAttribute MyAppUser user)
+    public ResponseEntity<AuthenticationResponse> register(@ModelAttribute MyAppUser user)
     {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        myAppUserRepository.save(user);
 
         var userDetails = userService.loadUserByUsername(user.getUsername());
         var jwtToken = jwtService.generateToken(userDetails);
-        AuthenticationResponse.builder()
+        return ResponseEntity.ok(AuthenticationResponse.builder()
                 .token(jwtToken)
-                .build();
-        return myAppUserRepository.save(user);
+                .build());
     }
 
     @PostMapping("/login")
