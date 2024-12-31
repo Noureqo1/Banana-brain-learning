@@ -1,24 +1,17 @@
 @startuml
 actor User
 participant System
-
-User -> System: selects a course
-User -> System: initiateQuiz
-System -> System: fetch questions
-System --> User: generateQuiz(numOfQuestions)
-
-
-loop for each question
-    User --> System: answerquestion(answer)
-    System -> System: evaluateAnswer(answer)
-    System --> User: displayanswer()
-end
-
-alt not all questions answered
-    System --> User: displayMessage("not all questions answered")
-else all questions answered
-    User -> System: submitQuiz(answers)
-    System -> System: saveQuizResults()
-    System --> User: displaygrade(score)
+User -> System: login(email, password)
+System -> System: ValidateUser(userid, email, password)
+System -> System: authenticate_user(username, password)
+System --> User: login_successful(massage)
+User -> System: view_courses(courses)
+User -> System: enroll_course(courseid)
+    System --> User: confirmation_message(massage)
+    System -> System: add_student(userid)
+alt Course has prerequisites not completed
+    System --> User: complete_prerequisites(massage)
+else No prerequisites or prerequisites completed
+System --> User: successful_enrollment(massage)
 end
 @enduml
