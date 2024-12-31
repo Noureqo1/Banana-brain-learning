@@ -1,0 +1,52 @@
+@startuml
+[*] --> login : Visit Site
+
+login --> signup : Click Register
+
+signup --> login : Registration Complete
+signup --> signup : Registration Failed
+
+login --> RoleAssignment : Authentication Successful
+login --> login : Authentication Failed
+
+RoleAssignment --> AuthenticatedUser : Role Assigned
+
+state AuthenticatedUser {
+    userhome --> BrowsingCourses
+
+    BrowsingCourses --> ViewingCourse : Select Course
+    ViewingCourse --> BrowsingCourses : Back to List
+
+    ViewingCourse --> CourseEnrollment : Enroll
+    CourseEnrollment --> EnrolledCourse : Enrollment Successful
+    CourseEnrollment --> ViewingCourse : Enrollment Failed
+
+
+    EnrolledCourse --> QuizParticipation : Take Quiz
+
+    QuizParticipation --> QuizComplete : Submit Quiz
+    QuizComplete --> ViewingLeaderboard : View Scores
+    QuizComplete --> EnrolledCourse : Return to Course
+
+    ViewingLeaderboard --> EnrolledCourse : Back to Course
+
+    EnrolledCourse --> BrowsingCourses : Unenroll
+}
+
+AuthenticatedUser --> login : Logout
+
+state TeacherUser {
+    teacherhome --> CourseManagement
+
+    CourseManagement --> CreatingCourse : Create New Course
+    CourseManagement --> EditingCourse : Edit Course
+    CourseManagement --> DeletingCourse : Delete Course
+
+    CreatingCourse --> CourseManagement : Course Created
+    EditingCourse --> CourseManagement : Changes Saved
+    DeletingCourse --> CourseManagement : Course Deleted
+}
+
+RoleAssignment --> TeacherUser : Assigned as Teacher
+TeacherUser --> login : logout
+@enduml
