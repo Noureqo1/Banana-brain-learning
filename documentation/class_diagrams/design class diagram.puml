@@ -71,11 +71,9 @@ class QuizScoreService {
 MyAppUser "1" --* "*" UserCourse
 Course "1" --* "*" UserCourse
 MyAppUser "1" --* "*" QuizScore
-
 AuthenticationController ..> MyAppUserService
 CourseController ..> CourseService
 QuizController ..> QuizScoreService
-
 MyAppUserService ..> MyAppUser
 CourseService ..> Course
 QuizScoreService ..> QuizScore
