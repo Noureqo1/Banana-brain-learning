@@ -1,0 +1,37 @@
+@startuml
+actor User
+participant ":QuizController" as Controller
+participant ":QuizScoreService" as Service
+participant ":QuizScoreRepository" as Repository
+database "Quiz Database" as Database
+
+User -> Controller: GET /quiz
+Controller --> User: Render "quiz" page
+
+User -> Controller: GET /quiz/leaderboard
+Controller -> Service: getLeaderboard()
+Service -> Repository: findAllByOrderByScoreDescCompletedAtDesc()
+Repository -> Database: Query without filters
+Database --> Repository: List<QuizScore>
+Repository --> Service: List<QuizScore>
+Service --> Controller: List<QuizScore>
+Controller --> User: Render "leaderboard" page
+
+User -> Controller: POST /quiz/submit-score
+Controller -> Service: saveScore(user, score, category, difficulty, totalQuestions)
+Service -> Repository: save(QuizScore)
+Repository -> Database: Evaluate QuizScore
+Database --> Repository: score of quiz
+Repository --> Service: score of quiz
+Service --> Controller: score of quiz
+Controller --> User: response with success or error message
+
+User -> Controller: GET /quiz/my-scores
+Controller -> Service: getUserScores(user)
+Service -> Repository: findByUserOrderByCompletedAtDesc(user)
+Repository -> Database: Query by user
+Database --> Repository: List<QuizScore>
+Repository --> Service: List<QuizScore>
+Service --> Controller: List<QuizScore>
+Controller --> User: Render "my-scores" page
+@enduml

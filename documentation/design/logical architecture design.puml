@@ -1,0 +1,63 @@
+@startuml
+skinparam line type polyline
+package "Client Layer" {
+    [Browser/Web Client] as B
+}
+package "Presentation Layer" {
+    [Authentication Controller] as C1
+    [Course Controller] as C2
+    [Quiz Controller] as C3
+    [Content Controller] as C4
+}
+package "Security Layer" {
+    [JWT Authentication Filter] as S1
+    [JWT Service] as S2
+    [Security Config] as S3
+}
+package "Service Layer" {
+    [MyAppUser Service] as SV1
+    [Course Service] as SV2
+    [Quiz Score Service] as SV3
+    [MyCourseList Service] as SV4
+}
+package "Persistence Layer" {
+    [MyAppUser Repository] as R1
+    [Course Repository] as R2
+    [QuizScore Repository] as R3
+    [UserCourse Repository] as R4
+}
+package "Domain Model Layer" {
+    [MyAppUser] as D1
+    [Course] as D2
+    [QuizScore] as D3
+    [UserCourse] as D4
+}
+package "Data Storage Layer" {
+    database "Database" as DB
+}
+B --> C1
+B --> C2
+B --> C3
+B --> C4
+C1 --> S1
+C2 --> S1
+C3 --> S1
+S1 --> S2
+S1 --> S3
+C1 --> SV1
+C2 --> SV2
+C3 --> SV3
+C4 --> SV4
+SV1 --> R1
+SV2 --> R2
+SV3 --> R3
+SV4 --> R4
+R1 --> D1
+R2 --> D2
+R3 --> D3
+R4 --> D4
+D1 --> DB
+D2 --> DB
+D3 --> DB
+D4 --> DB
+@enduml

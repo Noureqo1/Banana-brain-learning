@@ -1,0 +1,17 @@
+@startuml
+actor User
+participant System
+User -> System: login(email, password)
+System -> System: ValidateUser(userid, email, password)
+System -> System: authenticate_user(username, password)
+System --> User: login_successful(massage)
+User -> System: view_courses(courses)
+User -> System: enroll_course(courseid)
+    System --> User: confirmation_message(massage)
+    System -> System: add_student(userid)
+alt Course has prerequisites not completed
+    System --> User: complete_prerequisites(massage)
+else No prerequisites or prerequisites completed
+System --> User: successful_enrollment(massage)
+end
+@enduml

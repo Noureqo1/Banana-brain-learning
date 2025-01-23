@@ -1,7 +1,5 @@
 @startuml
 actor "User" as User
-actor "System" as System
-
 rectangle "Banana brain learning" {
     usecase "Signup"
     usecase "Login"
@@ -24,14 +22,7 @@ User -- "View leaderboards"
 User -- "Take quizzes for a course"
 User -- "Collect reward badge"
 
-"Signup" -- System
-"Login" -- System
-"View courses" -- System
-"enroll in a course" -- System
-System -- "Select topics for a course"
-"Answer questions for a topic" -- System
-"Take quizzes for a course" -- System
-"View leaderboards" -- System
-"Collect reward badge" -- System
+
+
 @enduml
 

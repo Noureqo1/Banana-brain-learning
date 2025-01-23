@@ -1,1 +1,1 @@
-# Banana-brain-learning
+## Banana brain learning is an online system platform that provides kids with an opportunity to enroll in courses and get knowledge about topics by solving questions, getting rewards, climbing ranks. The platform offers a fun, engaging, and competitive learning environment that helps kids in gaining knowledge while enjoying the education process. The platform targets kids aged 5 to 12 years old.
