@@ -2,17 +2,13 @@ package BananaBrain.controller;
 
 import BananaBrain.model.Course;
 import BananaBrain.model.MyCourseList;
-import BananaBrain.model.Roles;
 import BananaBrain.service.CourseService;
 import BananaBrain.service.RoleService;
 import BananaBrain.service.MyCourseListService;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;;
 
 @Controller
 public class ContentController
