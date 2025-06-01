@@ -1,0 +1,50 @@
+@startuml
+start
+
+:Visit Banana Brain Learning;
+
+if (User has an account?) then (Yes)
+    repeat
+        :Enter login credentials;
+        if (Login failed?) then (Yes)
+            :Display "Authentication Failed";
+        endif
+    repeat while (Login successful?) is (No)
+else (No)
+    repeat
+        :Enter registration details;
+        if (Registration failed?) then (Yes)
+            :Display "Registration Failed";
+        endif
+    repeat while (Registration successful?) is (No)
+    repeat
+        :Enter login credentials;
+        if (Login failed?) then (Yes)
+            :Display "Authentication Failed";
+        endif
+    repeat while (Login successful?) is (No)
+endif
+
+if (Role assigned?) then (Teacher)
+    :Redirect to Teacher Dashboard;
+    fork
+        :Create a new course;
+        :Edit an existing course;
+        :Delete a course;
+    endfork
+else (Student)
+    :Redirect to User Dashboard;
+    :Browse available courses;
+    :Select a course;
+    :Enroll in course;
+    fork
+        :Access course content;
+        :Participate in quizzes;
+        :View leaderboard;
+    endfork
+endif
+
+:Logout;
+
+stop
+@enduml

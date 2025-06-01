@@ -1,0 +1,62 @@
+@startuml
+class User
+{
+    +userId
+    +username
+    +password
+    +age
+    +email
+    +total_points
+
+}
+class Course
+{
+    +courseId
+    +CourseName
+    +title
+    +description
+    +topics
+    +prerequisites
+}
+class Topic
+{
+    +topicId
+    +title
+    +description
+    +questions
+}
+class Question
+{
+    +questionId
+    +text
+    +options
+    +correctAnswer
+}
+class Quiz
+{
+    +quizId
+    +title
+    +questions
+    +totalScore
+    +userId
+}
+class Leaderboard
+{
+    +player
+    +score
+    +category
+    +difficulty
+    +num_of_questions
+    +date
+}
+
+
+User "1" -- "1" Leaderboard : views
+User "1" -- "0..*" Course : enrolls in
+Course "1" -- "0..*" Topic : contains
+Topic "1" -- "*" Question : contains
+User "1" -- "0..*" Quiz : takes
+Quiz "1" -- "10..20*" Question : contains
+
+
+@enduml

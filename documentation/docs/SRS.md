@@ -151,14 +151,14 @@ Banana Brain Academy enhances learning for kids by gamifying the process with sc
 ---
 
 ### 3.2 Use Case Diagram
-![ alt text](diagrams/use_case_diagram.png)
+![ alt text](../diagrams/use_case_diagram.png)
 ### 3.3 Sequence Diagram
-![ alt text](diagrams/sequence_diagram_1.png)
-![ alt text](diagrams/sequence_diagram_2.png)
+![ alt text](../diagrams/sequence_diagram_1.png)
+![ alt text](../diagrams/sequence_diagram_2.png)
 ### 3.4 Domain Model
-![ alt text](diagrams/domain_model.png)
+![ alt text](../diagrams/domain_model.png)
 ### 4.1 Schema
-![ alt text](diagrams/Schema.png)
+![ alt text](../diagrams/Schema.png)
 ### 4.2 ERD
-![ alt text](diagrams/ERD.png)
+![ alt text](../diagrams/ERD.png)
  

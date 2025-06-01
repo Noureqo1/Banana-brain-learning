@@ -1,0 +1,26 @@
+@startuml
+actor User
+participant ":CourseController" as Controller
+participant ":CourseService" as Service
+participant ":CourseRepository" as Repository
+participant ":MyAppUserService" as UserService
+database "Course Database" as Database
+
+User -> Controller: POST /mylist/{courseId}
+Controller -> UserService: loadUserByUsername(authentication.getName())
+UserService -> Database: Query user by username
+Database --> UserService: username
+UserService --> Controller: username
+
+Controller -> Repository: findById(courseId)
+Repository -> Database: Query course by ID
+Database --> Repository: course
+Repository --> Controller: course
+
+Controller -> MyAppUser: enrollInCourse(Course)
+Controller -> UserService: save(MyAppUser)
+UserService -> Database: Save user enrollment
+Database --> UserService: enrollment saved
+UserService --> Controller: enrolled course
+Controller --> User: Redirect to "myCourses" page
+@enduml
